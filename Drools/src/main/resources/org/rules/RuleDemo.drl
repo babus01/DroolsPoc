@@ -1,0 +1,57 @@
+package org.rules
+
+import org.codehaus.jettison.json.JSONObject;
+import org.dexmedia.titan.validation.ValidationUtility;
+
+rule "Business Description MaxLength"
+when
+input: JSONObject(getJSONObject("Content").getString("Business Description").length() > 10)	
+$validationUtility:ValidationUtility()
+then
+$validationUtility.adderrors("Business Description Length is Greater then 50");
+System.out.println("Business Description Length is Greater then 50");
+end
+
+rule "Business Description IsNull"
+when
+input: JSONObject(getJSONObject("Content").getString("Business Description").empty == true)	
+$validationUtility:ValidationUtility()
+then
+$validationUtility.adderrors("Business Description can not be null");
+System.out.println("Business Description can not be null");
+end
+rule "Phone Number Length"
+when
+input: JSONObject(getJSONObject("Content").getString("Phone Number").length() != 10)	
+$validationUtility:ValidationUtility()
+then
+$validationUtility.adderrors("Business Phone number should be 10 digits");
+System.out.println("Phone number should have 10 digits");
+end
+
+rule "Start Date IsNull"
+when
+input: JSONObject(getJSONObject("Content").getString("Start Date").empty == true)	
+$validationUtility:ValidationUtility()
+then
+$validationUtility.adderrors("Start Date is null");
+System.out.println("Start Date Can not be null");
+end
+
+rule "Category List Length 0"
+when
+input: JSONObject(getJSONObject("Content").getJSONArray("CategoryList").length() == 0)	
+$validationUtility:ValidationUtility()
+then
+$validationUtility.adderrors("Atleast One Category Is required");
+System.out.println("Atleast One Category Is required");
+end
+
+rule "Category List Grater than 5"
+when
+input: JSONObject(getJSONObject("Content").getJSONArray("CategoryList").length() > 5)	
+$validationUtility:ValidationUtility()
+then
+$validationUtility.adderrors("Maximum Five categories are allowed");
+System.out.println("Maximum Five categories are allowed");
+end
