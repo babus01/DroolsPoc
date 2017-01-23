@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
 	<class name="org.dexmedia.titan.bean.Product" table="Product_Instance">
@@ -31,5 +31,23 @@
 		<property name="ItemId" type="string">
 			<column name="Item_Id" length="50" />
 		</property>
-	</class>	
+		<property name="rowaddedid" type="string">
+			<column name="row_added_id" length="50" />
+		</property>
+		<property name="rowaddeddttm" type="timestamp">
+			<column name="row_added_dttm" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
+		</property>
+		<property name="rowlastmantid" type="string">
+			<column name="row_lastmant_id" length="50" />
+		</property>
+		<property name="rowlastmantdttm" type="timestamp">
+			<column name="row_lastmant_dttm" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
+		</property>
+	<!-- <set name="ProductCategory" table="Product_categories" fetch="select">
+			<key>
+				<column name="Instance_id" not-null="true"></column>
+			</key>
+			<one-to-many class="ProductCategory" />
+		</set> -->	
+	</class>
 </hibernate-mapping>

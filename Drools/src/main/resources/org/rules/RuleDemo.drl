@@ -2,6 +2,19 @@ package org.rules
 
 import org.codehaus.jettison.json.JSONObject;
 import org.dexmedia.titan.validation.ValidationUtility;
+import org.dexmedia.titan.persistance.HibernateUtil;
+import org.dexmedia.titan.validation.Validation;
+
+rule "Start Date rule"
+  when 
+   input: JSONObject()
+    $validationUtility:ValidationUtility()
+    $validation:Validation()
+	eval($validation.currentDateValidation(input))
+  then 
+$validationUtility.adderrors("Start date can not be less than current date");
+System.out.println("Start date can not be less than current date");
+end    
 
 rule "Business Description MaxLength"
 when
@@ -54,4 +67,26 @@ $validationUtility:ValidationUtility()
 then
 $validationUtility.adderrors("Maximum Five categories are allowed");
 System.out.println("Maximum Five categories are allowed");
+end
+
+rule "Categories validation"
+when	
+input: JSONObject()
+$validationUtility:ValidationUtility()
+$validation:Validation()
+eval($validation.isCategoryValid(input, HibernateUtil.getSessionFactory().openSession()))
+then
+$validationUtility.adderrors("Category Provided is invalid");
+System.out.println("Categories validation");
+end
+
+rule "URL Validation"
+when
+input: JSONObject()	
+$validationUtility:ValidationUtility()
+$validation:Validation()
+eval($validation.pingUrl(input))
+then
+$validationUtility.adderrors("URL not Reachable");
+System.out.println("URL not Reachable");
 end

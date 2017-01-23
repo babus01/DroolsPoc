@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="org.dexmedia.titan.bean.ProductCategory" table="Product_categories">
+		<id name="instanceId" type="java.lang.Integer">
+			<column name="Instance_id" />
+		</id>
+		<property name="categoryId" type="string">
+			<column name="Category_Id" />
+		</property>
+		<property name="categorydesc" type="string">
+			<column name="category_desc" length="250" not-null="true" />
+		</property>
+		<property name="rowaddedid" type="string">
+			<column name="row_added_id" length="50" default="CA" />
+		</property>
+		<property name="rowaddeddttm" type="timestamp">
+			<column name="row_added_dttm" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
+		</property>
+		<property name="rowlastmantid" type="string">
+			<column name="row_lastmant_id" length="50" default="CA" />
+		</property>
+		<property name="rowlastmantdttm" type="timestamp">
+			<column name="row_lastmant_dttm" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
+		</property>
+		<!--<many-to-one name="product" class="Product">
+			<column name="Instance_id" not-null="true"></column>
+		</many-to-one> -->
+	</class>
+</hibernate-mapping>
