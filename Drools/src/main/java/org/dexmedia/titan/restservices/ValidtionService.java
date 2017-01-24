@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -29,12 +29,22 @@ public class ValidtionService {
 		return ValidationDrools.ValidationDrools(input);
 	}
 	
-	@GET
-	@Path("/insertProduct")
+	@POST
+	@Path("/externalServiceCall")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)	
-	public Response insertProduct(String json) throws JSONException, DroolsParserException, IOException, ParseException {
-		System.out.println("Response");		
-		return Response.status(Response.Status.OK).entity("Response").build();
+	public Response insertProductPOST(String json) throws JSONException, DroolsParserException, IOException, ParseException {
+		System.out.println("ResponsPOST");		
+		return Response.status(Response.Status.OK).entity("ResponsPOST").build();
+	}
+	
+	
+	@PUT
+	@Path("/externalServiceCall")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)	
+	public Response insertProductPUT(String json) throws JSONException, DroolsParserException, IOException, ParseException {
+		System.out.println("ResponsPUT");		
+		return Response.status(Response.Status.OK).entity("ResponsPUT").build();
 	}
 }

@@ -5,6 +5,9 @@ import org.dexmedia.titan.validation.ValidationUtility;
 import org.dexmedia.titan.persistance.HibernateUtil;
 import org.dexmedia.titan.validation.Validation;
 
+
+
+
 rule "Start Date rule"
   when 
    input: JSONObject()

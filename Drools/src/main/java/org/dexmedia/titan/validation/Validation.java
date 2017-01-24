@@ -22,6 +22,9 @@ import org.dexmedia.titan.persistance.ProductServiceImpl;
 import org.drools.compiler.compiler.DroolsParserException;
 import org.hibernate.Session;
 
+import org.glassfish.jersey.internal.util.Base64;
+import java.io.OutputStream;
+
 public class Validation {
 	public Validation() {
 		System.out.println("Validation");
@@ -149,7 +152,7 @@ public class Validation {
 			JSONObject content = new JSONObject();
 			content = input.getJSONObject("Content");
 			requestedDate = content.getString("Start Date");
-			System.out.println(requestedDate);
+			
 			 Date dt = new Date();
              Calendar currentDateCal = Calendar.getInstance(TimeZone.getTimeZone("America/Chicago"));
              currentDateCal.setTime(dt);
@@ -158,21 +161,16 @@ public class Validation {
              currentDateCal.set(Calendar.SECOND, 0);
              currentDateCal.set(Calendar.MILLISECOND, 0);
              dt = currentDateCal.getTime();
-             System.out.println(dt);
-             Calendar requestDate = Calendar.getInstance(TimeZone.getTimeZone("America/Chicago"));        
-             requestDate.set(Calendar.DAY_OF_MONTH,Integer.parseInt( requestedDate.substring(0,2)));
-             System.out.println(requestedDate.substring(0,2));
-             System.out.println(requestedDate.substring(3,5));
-             System.out.println(requestedDate.substring(6,10)); 
-             requestDate.set(Calendar.MONTH, Integer.parseInt(requestedDate.substring(3,5)));
-             requestDate.set(Calendar.YEAR,Integer.parseInt(requestedDate.substring(6,10)));
-           //  requestDate.set(Calendar.HOUR_OF_DAY, 0);
-            // requestDate.set(Calendar.MINUTE, 0);
-             //requestDate.set(Calendar.SECOND, 0);
-             //requestDate.set(Calendar.MILLISECOND, 0);
-             System.out.println(requestDate); 
+             
+             Calendar requestDate = Calendar.getInstance(TimeZone.getTimeZone("America/Chicago"));
+             requestDate.set(Calendar.DAY_OF_MONTH,Integer.parseInt( requestedDate.substring(8,10)));
+             requestDate.set(Calendar.MONTH, Integer.parseInt(requestedDate.substring(5,7))-1);
+             requestDate.set(Calendar.YEAR,Integer.parseInt(requestedDate.substring(0,4)));
+             requestDate.set(Calendar.HOUR_OF_DAY, 0);
+             requestDate.set(Calendar.MINUTE, 0);
+             requestDate.set(Calendar.SECOND, 0);
+             requestDate.set(Calendar.MILLISECOND, 0);
              Date reqDt = requestDate.getTime();
-             System.out.println(reqDt);
              if (dt.after(reqDt)) 
 				return true;
 			else
@@ -188,5 +186,34 @@ public class Validation {
 	      ZoneId currentZone = ZoneId.systemDefault();
 	      System.out.println("CurrentZone: " + currentZone);
 	      */	      
+	}
+	
+	public void statusCall(String methodType)
+	{
+		try{
+		URL url = new URL("http://localhost:8080/DroolsDemo/rest/Drools/externalServiceCall");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setDoOutput(true);
+		conn.setRequestMethod(methodType);
+		conn.setRequestProperty("Content-Type", "application/json");			
+		String userCredentials = "user:password";
+		String basicAuth = "Basic " + new String(new Base64().encode(userCredentials.getBytes()));
+		conn.setRequestProperty ("Authorization", basicAuth);
+		System.out.println("temp");
+		String input1 = "{\"Business Description\":\"Test\",\"Phone Number\":\"80088886000\"}";
+
+		OutputStream os = conn.getOutputStream();
+		os.write(input1.getBytes());
+		os.flush();
+		if (conn.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+				+ conn.getResponseCode());
+		}		
+		conn.disconnect();	
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 	}
 }

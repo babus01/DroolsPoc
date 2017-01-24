@@ -1,7 +1,10 @@
 package org.dexmedia.titan.persistance;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
@@ -9,8 +12,6 @@ import org.dexmedia.titan.bean.Product;
 import org.dexmedia.titan.bean.ProductCategory;
 import org.dexmedia.titan.validation.Validation;
 import org.hibernate.Session;
-
-
 
 public class ProductServiceImpl {
 	@SuppressWarnings("deprecation")
@@ -26,22 +27,30 @@ public class ProductServiceImpl {
 		try {		
 			content = input.getJSONObject("Content");
 			Producthdr = input.getJSONObject("ProductHeader");
-			java.util.Date myDate = new java.util.Date(content.getString("Start Date"));
-			java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
+			
+			
+			Calendar requestDate = Calendar.getInstance(TimeZone.getTimeZone("America/Chicago"));
+            requestDate.set(Calendar.DAY_OF_MONTH,Integer.parseInt( content.getString("Start Date").substring(8,10)));
+            requestDate.set(Calendar.MONTH, Integer.parseInt(content.getString("Start Date").substring(5,7))-1);
+            requestDate.set(Calendar.YEAR,Integer.parseInt(content.getString("Start Date").substring(0,4)));
+            requestDate.set(Calendar.HOUR_OF_DAY, 0);
+            requestDate.set(Calendar.MINUTE, 0);
+            requestDate.set(Calendar.SECOND, 0);
+            requestDate.set(Calendar.MILLISECOND, 0);
+            Date reqDt = requestDate.getTime();
+            java.sql.Date sqlDate = new java.sql.Date(reqDt.getTime());
+            
 			product.setBusinessDesr(content.getString("Business Description"));
 			product.setStartDate(sqlDate);
 			product.setWebsiteURL(content.getString("Destination URL"));
 			product.setBusinessPhone(content.getString("Phone Number"));
 			if(validationObj.itemStatus(Producthdr.getString("enterpriseItemId"),session)){
 				product.setStatus("NEW");
-			/*	Client client = ClientBuilder.newClient();
-				WebTarget resource = client.target("http://localhost:8080/DroolsDemo/rest/Drools/insertProduct");
-				Builder request = resource.request();
-				request.accept(MediaType.APPLICATION_JSON);
-				Response response = request.post(null);*/
+				validationObj.statusCall("POST");
 			}
 			else{
 				product.setStatus("UPDATE");
+				validationObj.statusCall("PUT");
 			}
 			product.setItemId(Producthdr.getString("enterpriseItemId"));
 			product.setRowaddedid("CA");

@@ -66,6 +66,7 @@
 			<artifactId>oracle-tools-testing-support</artifactId>
 			<version>1.2.0</version>
 			<classifier>javadoc</classifier>
+			
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
