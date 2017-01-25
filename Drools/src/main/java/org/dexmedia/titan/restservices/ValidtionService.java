@@ -28,23 +28,24 @@ public class ValidtionService {
 		Validation ValidationDrools = new Validation();
 		return ValidationDrools.ValidationDrools(input);
 	}
-	
+
 	@POST
 	@Path("/externalServiceCall")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)	
-	public Response insertProductPOST(String json) throws JSONException, DroolsParserException, IOException, ParseException {
-		System.out.println("ResponsPOST");		
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response insertProductPOST(String json)
+			throws JSONException, DroolsParserException, IOException, ParseException {
+		System.out.println("ResponsPOST");
 		return Response.status(Response.Status.OK).entity("ResponsPOST").build();
 	}
-	
-	
+
 	@PUT
 	@Path("/externalServiceCall")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)	
-	public Response insertProductPUT(String json) throws JSONException, DroolsParserException, IOException, ParseException {
-		System.out.println("ResponsPUT");		
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response insertProductPUT(String json)
+			throws JSONException, DroolsParserException, IOException, ParseException {
+		System.out.println("ResponsPUT");
 		return Response.status(Response.Status.OK).entity("ResponsPUT").build();
 	}
 }

@@ -4,15 +4,17 @@
 
 <hibernate-mapping>
 	<class name="org.dexmedia.titan.bean.Product" table="Product_Instance">
-		<id name="instanceId" type="java.lang.Integer">
-			<column name="Instance_id" />
-			<generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
-				<param name="prefer_sequence_per_entity">true</param>
-				<param name="optimizer">none</param>
-				<param name="increment_size">1</param>
-				<param name="sequence_name">PRODUCT_ID_SEQ</param>
-			</generator>
+		<!-- <id name="instanceId" type="java.lang.Integer"> <column name="Instance_id" 
+			/> <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator"> <param 
+			name="prefer_sequence_per_entity">true</param> <param name="optimizer">none</param> 
+			<param name="increment_size">1</param> <param name="sequence_name">PRODUCT_ID_SEQ</param> 
+			</generator> </id> -->
+		<id name="ItemId" type="string">
+			<column name="Item_Id" />
 		</id>
+		<property name="instanceId" type="java.lang.Integer">
+			<column name="Instance_id" unique="true" not-null="true" />
+		</property>
 		<property name="businessDesr" type="string">
 			<column name="Business_Desr" length="50" not-null="true" />
 		</property>
@@ -28,9 +30,8 @@
 		<property name="status" type="string">
 			<column name="Status" length="10" not-null="true" />
 		</property>
-		<property name="ItemId" type="string">
-			<column name="Item_Id" length="50" />
-		</property>
+		<!-- <property name="ItemId" type="string"> <column name="Item_Id" length="50" 
+			/> </property> -->
 		<property name="rowaddedid" type="string">
 			<column name="row_added_id" length="50" />
 		</property>
@@ -43,11 +44,8 @@
 		<property name="rowlastmantdttm" type="timestamp">
 			<column name="row_lastmant_dttm" sql-type="timestamp" default="CURRENT_TIMESTAMP" />
 		</property>
-	<!-- <set name="ProductCategory" table="Product_categories" fetch="select">
-			<key>
-				<column name="Instance_id" not-null="true"></column>
-			</key>
-			<one-to-many class="ProductCategory" />
-		</set> -->	
+		<!-- <set name="ProductCategory" table="Product_categories" fetch="select"> 
+			<key> <column name="Instance_id" not-null="true"></column> </key> <one-to-many 
+			class="ProductCategory" /> </set> -->
 	</class>
 </hibernate-mapping>

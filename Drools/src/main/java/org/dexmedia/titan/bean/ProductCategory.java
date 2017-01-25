@@ -11,7 +11,7 @@ public class ProductCategory implements java.io.Serializable {
 	private Date rowaddeddttm;
 	private String rowlastmantid;
 	private Date rowlastmantdttm;
-//	private Product product;
+	// private Product product;
 
 	public int getInstanceId() {
 		return instanceId;
@@ -69,12 +69,9 @@ public class ProductCategory implements java.io.Serializable {
 		this.rowlastmantdttm = rowlastmantdttm;
 	}
 
-	/*public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-*/
+	/*
+	 * public Product getProduct() { return product; }
+	 * 
+	 * public void setProduct(Product product) { this.product = product; }
+	 */
 }
